@@ -1,0 +1,53 @@
+
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="/fragments/head"> </head>
+
+<body>
+
+<nav th:replace="/fragments/nav :: nav-admin"></nav>
+
+<div class="container">
+
+    <h1 class="display-2">Pages</h1>
+    <a href="/admin/pages/add" class="btn btn-success mb-5">Add new page</a>
+
+    <div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}"></div>
+
+
+    <div th:if="${!pages.empty}" >
+        <table class="table">
+            <tr>
+                <th>Title</th>
+                <th>Slug</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <tr th:each="page: ${pages}">
+                <td th:text="${page.title}"></td>
+                <td th:text="${page.slug}"></td>
+                <td><a th:href="@{'/admin/pages/edit/' + ${page.id}}" class="btn btn-primary">Edit</a></td>
+                <td><a th:if="${page.slug != 'home'}" th:href="@{'/admin/pages/delete/' + ${page.id}}" class="confirmDeletion" >Delete</a></td>
+            </tr>
+        </table>
+    </div>
+
+    <div th:unless="${!pages.empty}" >
+        <h4>There are no pages currently!</h4>
+    </div>
+</div>
+
+<p id="demo"></p>
+
+<script>
+$(function () {
+	$("a.confirmDeletion").click(function () {
+		if (!confirm("Confirm deletion")) return false;
+	});
+});
+</script>
+
+<footer th:replace="/fragments/foot"></footer>
+
+</body>
+</html>
